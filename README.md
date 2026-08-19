@@ -24,31 +24,39 @@ Pipeline de dados end-to-end em arquitetura Medallion para ingestão, processame
 ---
 
 ##  Estruturas de Pasta
+
+```text
 .
-├── config/                 # Configurações globais, variáveis de ambiente e perfis do Spark
-├── dags/                   # DAGs e operadores customizados do Apache Airflow
-├── dashboard/              # Interface e componentes da aplicação Streamlit
-├── docker/                 # Dockerfiles por serviço
+├── config/                         # Configurações globais, variáveis de ambiente e perfis do Spark
+├── dags/                           # DAGs e operadores customizados do Apache Airflow
+├── dashboard/                      # Interface e componentes da aplicação Streamlit
+├── docker/                         # Dockerfiles por serviço
 │   ├── airflow/
 │   └── spark/
 ├── Imagens/
 │   └── Architecture.excalidraw.png
-├── k8s/                    # Manifestos do Kubernetes (Deployments, Services, Ingress, PVs)
-│   ├── base/               # Recursos base (Airflow, MinIO, Spark, Streamlit)
-│   └── overlays/           # Configurações específicas por ambiente (dev, prod)
-├── src/                    # Código-fonte modularizado da pipeline
-│   ├── ingestion/          # Scripts de coleta via API ou NiFi
-│   ├── spark/              # Jobs PySpark divididos por camadas da arquitetura
-│   │   ├── bronze/         # Carga dos dados brutos para tabelas Iceberg
-│   │   ├── silver/         # Limpeza, desduplicação e cálculo de SLAs
-│   │   └── gold/           # Agregações de negócio (MTTR, MTTD, volume)
-│   └── utils/              # Módulos compartilhados (S3 Client, loggers, Iceberg Catalog)
-├── tests/                  # Testes unitários e de integração (PyTest, Chispa)
+├── k8s/                            # Manifestos do Kubernetes
+│   ├── base/                       # Recursos base (Airflow, MinIO, Spark, Streamlit)
+│   └── overlays/                   # Configurações específicas por ambiente
+│       ├── dev/
+│       └── prod/
+├── src/                            # Código-fonte modularizado da pipeline
+│   ├── ingestion/                  # Scripts de coleta via API ou NiFi
+│   ├── spark/                      # Jobs PySpark organizados por camada
+│   │   ├── bronze/                 # Carga dos dados brutos para tabelas Iceberg
+│   │   ├── silver/                 # Limpeza, desduplicação e cálculo de SLA
+│   │   └── gold/                   # Agregações de negócio (MTTR, MTTD, volume)
+│   └── utils/                      # Módulos compartilhados
+│       ├── s3_client/
+│       ├── loggers/
+│       └── iceberg_catalog/
+├── tests/                          # Testes unitários e de integração
 ├── .gitignore
-├── docker-compose.yml      # Orquestração local de toda a stack
+├── docker-compose.yml              # Orquestração local de toda a stack
 ├── LICENSE
 ├── README.md
-└── requirements.txt        # Dependências globais de desenvolvimento Python
+└── requirements.txt                # Dependências globais de desenvolvimento Python
+```
 
 ---
 ##  Camadas de Dados (Medallion Architecture)
